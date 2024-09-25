@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,11 @@ Route::get('/home', function () {
 Route::get('/cart', function () {
     return view('user.cart');
 })->middleware(['auth', 'verified'])->name('cart');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+});
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 

@@ -6,15 +6,6 @@
 <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-16">
     <h1 class="text-2xl font-bold mb-6">Your Cart</h1>
 
-    <!-- Contoh Data Statis Keranjang -->
-    @php
-        $cartItems = [
-            ['name' => 'Product 1', 'price' => 29.99, 'quantity' => 1, 'image_url' => 'https://via.placeholder.com/150'],
-            ['name' => 'Product 2', 'price' => 39.99, 'quantity' => 2, 'image_url' => 'https://via.placeholder.com/150'],
-            ['name' => 'Product 3', 'price' => 19.99, 'quantity' => 1, 'image_url' => 'https://via.placeholder.com/150'],
-        ];
-    @endphp
-
     @if (count($cartItems) > 0)
         <table class="min-w-full">
             <thead>
@@ -28,22 +19,28 @@
             <tbody>
                 @php $total = 0; @endphp
                 @foreach ($cartItems as $item)
-                    @php $total += $item['price'] * $item['quantity']; @endphp
+                    @php
+                        $total += $item->product->price * $item->quantity; 
+                    @endphp
                     <tr class="border-b">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="h-16 w-16 object-cover mr-4">
-                                <span>{{ $item['name'] }}</span>
+                                <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" class="h-16 w-16 object-cover mr-4">
+                                <span>{{ $item->product->name }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <input type="number" value="{{ $item['quantity'] }}" min="1" class="border rounded-lg w-16 text-center">
+                            <input type="number" value="{{ $item->quantity }}" min="1" class="border rounded-lg w-16 text-center">
                         </td>
                         <td class="px-6 py-4">
-                            ${{ number_format($item['price'], 2) }}
+                            Rp. {{ number_format($item->product->price, 2, ',', '.') }}
                         </td>
                         <td class="px-6 py-4">
-                            <button class="text-red-500 hover:text-red-700">Remove</button>
+                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-500 hover:text-red-700">Remove</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -51,7 +48,7 @@
         </table>
 
         <div class="mt-4 flex justify-between items-center">
-            <h2 class="text-lg font-semibold">Total: ${{ number_format($total, 2) }}</h2>
+            <h2 class="text-lg font-semibold">Total: Rp. {{ number_format($total, 2, ',', '.') }}</h2>
             <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Checkout</button>
         </div>
     @else

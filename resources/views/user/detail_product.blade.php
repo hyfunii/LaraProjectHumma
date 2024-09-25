@@ -28,11 +28,12 @@
                     </div>
                 </div>
                 <div class="mt-6 flex space-x-4">
-                    <a href="#"
-                        class="inline-block px-4 py-2 border border-blue-500 text-blue-500 text-sm font-semibold rounded hover:bg-blue-500 hover:text-white transition duration-200">Add
-                        to Cart</a>
-                    <a href="#"
-                        class="inline-block px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-700 transition duration-200">Buy
+                    <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="inline-block px-4 py-2 border border-blue-500 text-blue-500 text-sm font-semibold rounded hover:bg-blue-500 hover:text-white transition duration-200">Add
+                            to Cart</button>
+                    </form>
+                    <a href="#" class="inline-block px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-700 transition duration-200">Buy
                         Now</a>
                 </div>
             </div>
@@ -45,12 +46,12 @@
         const quantityInput = document.getElementById('quantity');
 
         incrementButton.addEventListener('click', () => {
-            quantityInput.value = parseInt(quantityInput.value) + 1; // Increase quantity by 1
+            quantityInput.value = parseInt(quantityInput.value) + 1;
         });
 
         decrementButton.addEventListener('click', () => {
             if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1; // Decrease quantity by 1, minimum 1
+                quantityInput.value = parseInt(quantityInput.value) - 1;
             }
         });
     </script>
