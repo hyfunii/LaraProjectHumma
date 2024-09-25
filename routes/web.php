@@ -9,31 +9,50 @@ use Illuminate\Support\Facades\Route;
 //     return view('user.home');
 // });
 
+// user
+
+Route::get('/', [ProductController::class, 'index'])->name('home');
+
 Route::get('/cart', function () {
     return view('user.cart');
 });
 
-// Route::get('/home', function () {
-//     return view('user.home');
-// })->middleware(['auth', 'verified'])->name('home');
-
-// Route::get('/home', function () {
-//     return view('user.home');
-// })->name('home');
-Route::get('/home', function () {
+Route::get('/product', function () {
     return view('user.detail_product');
-})->name('home');
+})->name('product');
+
+Route::get('/profiles', function () {
+    return view('user.profile');
+})->name('profiles');
+
+Route::get('/checkout', function () {
+    return view('user.checkout');
+})->name('checkout');
 
 Route::get('/cart', function () {
     return view('user.cart');
 })->middleware(['auth', 'verified'])->name('cart');
 
+// seller
+Route::get('/dashboard', function () {
+    return view('seller.dashboard');
+})->name('dashboard');
+
+Route::get('/products', function () {
+    return view('seller.detail_product');
+})->name('products');
+
+// admin
+Route::get('/dashbord', function () {
+    return view('admin.dashboard');
+})->name('dashbord');
+
+// middleware
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 });
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('detail_product');
 
