@@ -11,19 +11,22 @@ use Illuminate\Support\Facades\Route;
 
 // user
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+// Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('user.home');
+})->name('home');
 
 Route::get('/cart', function () {
     return view('user.cart');
-});
+})->name('cart');
 
 Route::get('/product', function () {
     return view('user.detail_product');
 })->name('product');
 
-Route::get('/profiles', function () {
+Route::get('/profile', function () {
     return view('user.profile');
-})->name('profiles');
+})->name('profile');
 
 Route::get('/checkout', function () {
     return view('user.checkout');
@@ -56,10 +59,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('detail_product');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__ . '/auth.php';
